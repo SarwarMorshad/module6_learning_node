@@ -1,7 +1,8 @@
-import { createServer, IncomingMessage, Server } from "http";
+import { createServer, IncomingMessage, Server, ServerResponse } from "http";
+import { routeHandler } from "./routes/routes";
 
-const server: Server = createServer((req: IncomingMessage, res) => {
-  console.log(req);
+const server: Server = createServer((req: IncomingMessage, res: ServerResponse) => {
+  routeHandler(req, res);
 });
 
 server.listen(3000, () => {
