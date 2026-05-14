@@ -30,13 +30,7 @@
     "description": "Ergonomic wireless mouse designed for programmers, designers, and productivity users."
   },
   {
-    "id": 1778673515976,
-    "name": "Dell XPS 15",
-    "price": 1899,
-    "description": "High-performance laptop with Intel Core i7 processor, 16GB RAM, and 1TB SSD."
-  },
-  {
-    "id": 1778675141045,
+    "id": 1778759614010,
     "name": "Apple Watch Series 10",
     "price": 1000,
     "description": "Smartwatch with fitness tracking."
