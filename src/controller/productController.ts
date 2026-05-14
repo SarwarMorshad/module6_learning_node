@@ -13,6 +13,7 @@ export const productController = async (req: IncomingMessage, res: ServerRespons
   const id = urlParts && urlParts[1] === "products" ? Number(urlParts[2]) : null;
   // console.log("This is actual id:", id);
 
+  // Get All Products
   if (url === "/products" && method === "GET") {
     const products = readProduct();
 
@@ -23,7 +24,9 @@ export const productController = async (req: IncomingMessage, res: ServerRespons
         data: products,
       }),
     );
-  } else if (method === "GET" && id !== null) {
+  }
+  // Get a Single Product
+  else if (method === "GET" && id !== null) {
     const products = readProduct();
     const product = products.find((p: IProduct) => p.id === id);
     // console.log(product);
@@ -34,7 +37,9 @@ export const productController = async (req: IncomingMessage, res: ServerRespons
         data: product,
       }),
     );
-  } else if (method === "POST" && url === "/products") {
+  }
+  // Create a Product
+  else if (method === "POST" && url === "/products") {
     const body = await parseBody(req);
     // console.log(body);
     const products = readProduct();
@@ -53,5 +58,31 @@ export const productController = async (req: IncomingMessage, res: ServerRespons
         data: newProduct,
       }),
     );
+  }
+  // Update a Product
+  else if (method === "PUT" && id !== null) {
+    const body = await parseBody(req);
+    const products = readProduct();
+
+    const productIndex = products.findIndex((p: IProduct) => p.id === id);
+    // console.log(productIndex);
+    if (productIndex < 0) {
+      res.writeHead(404, { "content-type": "application/json" });
+      res.end(
+        JSON.stringify({
+          message: "Product not found",
+        }),
+      );
+      return;
+    }
+    products[productIndex] = { id: products[productIndex].id, ...body };
+    res.writeHead(200, { "content-type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Product updated Successfully",
+        data: products[productIndex],
+      }),
+    );
+    insertProduct(products);
   }
 };
